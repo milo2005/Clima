@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import com.example.estacionvl_tc_014.clima.net.HttpAsyncTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity implements HttpAsyncTask.HttpI {
 
     TextView descripcion, humedad, temperatura, presion;
@@ -26,16 +29,45 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.Htt
         progress = new ProgressDialog(this);
         progress.setMessage(getString(R.string.loading));
 
+        loadClima();
     }
 
     public void loadClima(){
         HttpAsyncTask task =  new HttpAsyncTask(HttpAsyncTask.METHOD_GET, this);
-        task.execute("");
+        task.execute(getString(R.string.url));
         progress.show();
     }
 
     @Override
     public void onResponseReceived(String response) {
         progress.dismiss();
+
+        try {
+            JSONObject obj = new JSONObject(response);
+            JSONObject query = obj.getJSONObject("query");
+            JSONObject results = query.getJSONObject("results");
+            JSONObject channel = results.getJSONObject("channel");
+            JSONObject atmosphere = channel.getJSONObject("atmosphere");
+
+            String h = atmosphere.getString("humidity");
+            String p = atmosphere.getString("pressure");
+
+            JSONObject item = channel.getJSONObject("item");
+            JSONObject condition  = item.getJSONObject("condition");
+
+            String d = condition.getString("text");
+            String t = condition.getString("temp");
+
+
+            temperatura.setText(t);
+            humedad.setText(h);
+            presion.setText(p);
+            descripcion.setText(d);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }
