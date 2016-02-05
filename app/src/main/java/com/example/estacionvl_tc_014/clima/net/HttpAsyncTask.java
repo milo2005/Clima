@@ -9,9 +9,9 @@ import java.io.IOException;
  */
 public class HttpAsyncTask extends AsyncTask<String, Integer, String> {
 
-    static final int METHOD_GET = 0;
-    static final int METHOD_POST_FORM = 1;
-    static final int METHOD_POST_JSON = 2;
+    public static final int METHOD_GET = 0;
+    public static final int METHOD_POST_FORM = 1;
+    public static final int METHOD_POST_JSON = 2;
 
     public interface HttpI{
         void onResponseReceived(String response);
