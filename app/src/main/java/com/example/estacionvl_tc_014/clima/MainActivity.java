@@ -3,6 +3,8 @@ package com.example.estacionvl_tc_014.clima;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.estacionvl_tc_014.clima.net.HttpAsyncTask;
@@ -69,5 +71,21 @@ public class MainActivity extends AppCompatActivity implements HttpAsyncTask.Htt
             e.printStackTrace();
         }
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        loadClima();
+
+        return super.onOptionsItemSelected(item);
     }
 }
